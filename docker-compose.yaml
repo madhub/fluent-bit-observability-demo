@@ -39,14 +39,15 @@ services:
       - jaeger      
 
   jaeger:
-    image: jaegertracing/all-in-one:latest
-    ports:
-    - "16686:16686"
-    - "14268"
-    - "14250"
-    - "4317:4317"
     environment:
       - COLLECTOR_OTLP_ENABLED=true
+    image: jaegertracing/all-in-one:latest
+    ports:
+#     - "4317:4317"
+      - "16686:16686"
+#      - "4318:4318"
+      - "14268"
+      - "14250"      
   prometheus:
     image: prom/prometheus
     volumes:

@@ -5,6 +5,8 @@ receivers:
       http:
         endpoint: "0.0.0.0:3030"
 
+processors:
+  batch:
 
 exporters:
   otlp:
@@ -25,7 +27,10 @@ service:
       exporters: [logging]
     traces:
       receivers: [otlp]
-      exporters: [logging, otlp]
+      processors: [batch]
+      exporters: [otlp,logging]
     metrics:
       receivers: [otlp]
-      exporters: [logging, prometheus]
+      processors: [batch]
+      exporters: [prometheus,logging ]
+

@@ -14,7 +14,17 @@ builder.Services.AddOpenTelemetry()
             .AddAspNetCoreInstrumentation()
              .AddOtlpExporter( options =>
              {
-                 options.Endpoint = new Uri("http://fluentbit:3000");
+                 // if you are using otelcollector directly use {base_url}/v1/traces
+                 // via fluent bit use only baseurl
+                 options.Endpoint = new Uri("http://localhost:4317");
+                 options.HttpClientFactory = () =>
+                 {
+                     return new HttpClient(new HttpClientHandler()
+                     {
+                         ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                     }); ;
+                 };
+                 //options.Endpoint = new Uri("http://fluentbit:3000");
              })
             .AddConsoleExporter());
 
