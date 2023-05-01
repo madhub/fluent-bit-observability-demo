@@ -12,7 +12,10 @@ builder.Services.AddOpenTelemetry()
             .ConfigureResource(resource => resource
                 .AddService(DiagnosticsConfig.ServiceName))
             .AddAspNetCoreInstrumentation()
-             .AddOtlpExporter( )
+             .AddOtlpExporter( options =>
+             {
+                 options.Endpoint = new Uri("http://fluentbit:3000");
+             })
             .AddConsoleExporter());
 
 builder.Services.AddControllers();
